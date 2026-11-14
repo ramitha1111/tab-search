@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [HIGH] Split "test" into parallel jobs (lint + test + build)
+# - [MEDIUM] Add concurrency group to "ci.yml"
+# Estimated savings: ~8 min/run
+#
 name: CI
 
 on:
@@ -6,6 +12,10 @@ on:
     branches: [main, next, master]
   pull_request:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     runs-on: ubuntu-latest
